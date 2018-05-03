@@ -8,19 +8,19 @@ plt.style.use('ggplot')
 
 df = pd.read_csv('GlobalTemperatures.csv')
 
-# Considera apenas as colunas de index, dt e LandAverageTemperature(Temperatura Terrestre Média)
+# Consider just the cols of index, dt and LandAverageTemperature
 df = df.ix[:, :2]
 
-# Converte as datas str para datetime
+# Convert the dates str to datetime
 times = pd.DatetimeIndex(df['dt'])
 
-# Usa observações anteriores válidas para preencher os gaps NaN
+# Use previous valid observations to fill the NaN gaps
 df['LandAverageTemperature'] = df['LandAverageTemperature'].fillna(method='ffill')
 
-# Agrupa as medias por ano
+# Group the means by year
 grouped = df.groupby([times.year]).mean()
 
-# Monta o graph
+# Graph
 plt.figure(figsize = (15, 5))
 plt.plot(grouped['LandAverageTemperature'])
 plt.title("Temperatura Terrestre Média 1750-2015")
@@ -28,7 +28,7 @@ plt.xlabel("Ano")
 plt.ylabel("Temperatura Terrestre Média")
 plt.show()
 
-# Model || Regressão Linear
+# Model || Linear Regression
 x = grouped.index.values.reshape(-1, 1)
 y = grouped['LandAverageTemperature'].values
 
